@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="InputBelt" Id="{2a85e218-1bdb-4ed5-9bd6-698ec9057a87}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK InputBelt
+VAR_INPUT
+	InputSensor : DEV_Sensor_stOutput;
+	OutputSensor : DEV_Sensor_stOutput;
+	CommandA : INT;
+END_VAR
+VAR_OUTPUT
+	NewBox : BOOL;
+	BeltOn : BOOL;
+	BoxReady : BOOL;
+END_VAR
+VAR
+	State : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE CommandA OF
+	Command.Error:
+	BeltOn := TRUE;
+END_CASE
+
+
+
+CASE State OF
+	10://startup //reset?
+		IF InputSensor.Detecting = TRUE AND OutputSensor.Detecting = TRUE THEN
+			State := 11;
+		ELSIF InputSensor.Detecting = FALSE AND OutputSensor.Detecting = FALSE THEN
+			State := 20;
+		ELSIF InputSensor.Detecting = TRUE AND OutputSensor.Detecting = FALSE THEN
+			State := 30;
+		ELSIF InputSensor.Detecting = FALSE AND OutputSensor.Detecting = TRUE THEN
+			State := 40;		
+		END_IF
+		
+	11://startup boxes on belt.
+		NewBox := FALSE;
+		BeltOn := FALSE;
+		BoxReady := TRUE;
+	
+		IF OutputSensor.Detecting = FALSE THEN
+			State := 20;
+		END_IF
+		
+	20://No Box
+		NewBox := TRUE;
+		BeltOn := FALSE;
+		BoxReady := FALSE;
+		
+		IF InputSensor.Detecting = TRUE AND OutputSensor = FALSE THEN
+			State := 30;
+		END_IF
+	
+	30://retrieve box
+		NewBox := FALSE;
+		BeltOn := TRUE;
+		BoxReady := FALSE;
+		
+		IF InputSensor.Detecting = FALSE AND OutputSensor = TRUE THEN
+			State := 40;
+		END_IF
+		
+	40://boxready
+		NewBox := FALSE;
+		BeltOn := FALSE;
+		BoxReady := TRUE;
+		
+		IF OutputSensor.Detecting = FALSE THEN
+			State := 20;
+		END_IF
+		
+	101://error
+		NewBox := FALSE;
+		BeltOn := FALSE;
+		BoxReady := FALSE;
+	
+	102://pause
+		NewBox := FALSE;
+		BeltOn := FALSE;
+		BoxReady := FALSE;
+		
+	103://stop
+		NewBox := FALSE;
+		BeltOn := FALSE;
+		BoxReady := FALSE;
+		
+	104://reset
+	
+	
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="InputBelt">
+      <LineId Id="101" Count="0" />
+      <LineId Id="103" Count="0" />
+      <LineId Id="105" Count="0" />
+      <LineId Id="104" Count="0" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="22" Count="0" />
+      <LineId Id="62" Count="1" />
+      <LineId Id="79" Count="1" />
+      <LineId Id="52" Count="0" />
+      <LineId Id="55" Count="0" />
+      <LineId Id="24" Count="0" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="59" Count="0" />
+      <LineId Id="76" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="67" Count="0" />
+      <LineId Id="71" Count="1" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="65" Count="1" />
+      <LineId Id="64" Count="0" />
+      <LineId Id="100" Count="0" />
+      <LineId Id="26" Count="1" />
+      <LineId Id="73" Count="2" />
+      <LineId Id="33" Count="2" />
+      <LineId Id="28" Count="1" />
+      <LineId Id="36" Count="0" />
+      <LineId Id="38" Count="1" />
+      <LineId Id="70" Count="0" />
+      <LineId Id="42" Count="1" />
+      <LineId Id="41" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="45" Count="1" />
+      <LineId Id="51" Count="0" />
+      <LineId Id="47" Count="2" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="81" Count="1" />
+      <LineId Id="84" Count="1" />
+      <LineId Id="83" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="87" Count="0" />
+      <LineId Id="92" Count="1" />
+      <LineId Id="88" Count="0" />
+      <LineId Id="94" Count="0" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="95" Count="1" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="97" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="98" Count="1" />
+      <LineId Id="23" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

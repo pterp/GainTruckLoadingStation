@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="Weighbridge" Id="{adb499aa-6201-4292-b9d1-d349fb2c2ab6}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Weighbridge
+VAR_INPUT
+	Definitions : MOD_WeighBridge_istDefinitions;
+	Sensor : MOD_Weighbridge_istSensor;
+END_VAR
+VAR_OUTPUT
+	Output : MOD_WeighBridge_qstOutput;
+END_VAR
+VAR
+	State : INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[IF Sensor.Weight <= Definitions.OperatingWeight THEN
+	Output.TruckOnScale := FALSE;
+ELSE
+	Output.TruckOnScale := TRUE;	
+END_IF
+
+IF Sensor.Weight > Definitions.WeightLimit - Definitions.DetractorWeight THEN
+	Output.WeightLimitReached := TRUE;
+ELSE
+	Output.WeightLimitReached := FALSE;
+END_IF
+
+IF FALSE THEN //error stop pause ETC
+	Output.WeightLimitReached := FALSE;
+	Output.TruckOnScale := FALSE;
+END_IF]]></ST>
+    </Implementation>
+    <LineIds Name="Weighbridge">
+      <LineId Id="30" Count="0" />
+      <LineId Id="35" Count="1" />
+      <LineId Id="33" Count="1" />
+      <LineId Id="37" Count="0" />
+      <LineId Id="31" Count="0" />
+      <LineId Id="39" Count="0" />
+      <LineId Id="41" Count="1" />
+      <LineId Id="40" Count="0" />
+      <LineId Id="43" Count="0" />
+      <LineId Id="13" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="46" Count="0" />
+      <LineId Id="45" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

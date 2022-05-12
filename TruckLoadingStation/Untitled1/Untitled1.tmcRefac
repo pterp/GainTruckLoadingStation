@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="c6dd3985-f911-4dc9-9057-83aca77ca140">MOD_CRANE_MOTOR_STOUTPUT</Type>
+      <From>MOD_Crane_Motor_stOutput</From>
+      <To>MOD_Crane_stMotorOutput</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="19cdf2cf-f028-4407-9769-f438d1fbefe5">MOD_WEIGHBRIDGE_STDEFINITIONS</Type>
+      <From>MOD_WeighBridge_stDefinitions</From>
+      <To>MOD_WeighBridge_istDefinitions</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="c75a6e03-c631-4c0d-a7cb-f502953a1e3c">MOD_WEIGHBRIDGE_STOUTPUT</Type>
+      <From>MOD_WeighBridge_stOutput</From>
+      <To>MOD_WeighBridge_qstOutput</To>
+    </RenamedType>
+    <RenamedType>
+      <Type guid="ac4faa75-c5f2-4c00-be04-55d0ca0009fe">MOD_WEIGHBRIDGE_STSENSOR</Type>
+      <From>MOD_Weighbridge_stSensor</From>
+      <To>MOD_Weighbridge_istSensor</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

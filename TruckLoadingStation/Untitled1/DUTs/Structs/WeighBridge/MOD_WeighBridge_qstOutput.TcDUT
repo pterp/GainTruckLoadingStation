@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="MOD_WeighBridge_qstOutput" Id="{c75a6e03-c631-4c0d-a7cb-f502953a1e3c}">
+    <Declaration><![CDATA[TYPE MOD_WeighBridge_qstOutput :
+STRUCT
+	TruckOnScale : BOOL;
+	WeightLimitReached : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

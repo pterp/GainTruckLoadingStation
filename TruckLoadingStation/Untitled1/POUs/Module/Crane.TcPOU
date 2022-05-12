@@ -1,0 +1,153 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="Crane" Id="{5ef12530-d6be-413c-8970-2208adcc7e82}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK Crane
+VAR_INPUT
+	InputReady : BOOL;
+	CraneDownSensor : BOOL;
+	CraneUpSensor : BOOL;
+	CraneAboveInput : BOOL;
+	CraneAboveOutput : BOOL;
+	InputSensor: BOOL;
+	OutputSensor: BOOL;
+	LoadReady: BOOL;
+	LoadGrabbed: BOOL;
+	CraneIsUp: BOOL;
+	CraneIsDown : BOOL;
+	HoldingItem: BOOL;
+END_VAR
+VAR_OUTPUT
+	//right is down left is up
+	HorizontalMotor : MOD_Crane_stMotorOutput;
+	VerticalMotor : MOD_Crane_stMotorOutput;
+	Grab : BOOL;
+END_VAR
+VAR
+	State: INT;
+	MotorDirection : (Left, Right, Stopped);
+
+	
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[CASE State OF
+	10://startup //reset?
+
+		
+		
+	20://check box ready
+		//wait untill
+		IF InputReady = TRUE THEN
+			State := 30;
+		END_IF
+	
+	30://move crane down
+		
+		VerticalMotor.MoveLeft := TRUE;
+		VerticalMotor.MoveRight := FALSE;
+		
+		IF CraneDownSensor = TRUE THEN
+			State := 40;
+		END_IF
+		
+	40://grab the load
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		Grab := TRUE;
+		
+		IF LoadGrabbed = TRUE THEN
+			State := 50;
+		END_IF
+
+	50://move crane up
+		VerticalMotor.MoveLeft := TRUE;
+		VerticalMotor.MoveRight := FALSE;
+		Grab := TRUE;
+		
+		IF CraneUpSensor = TRUE THEN
+			State := 60;
+		END_IF
+
+	60://move crane to output position
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := TRUE;
+		HorizontalMotor.MoveRight := FALSE;
+		Grab := TRUE;
+		IF CraneAboveInput = TRUE THEN
+			State := 70;
+		END_IF
+
+	70://move crane down
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := TRUE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;		
+		IF OutputSensor = FALSE THEN
+			State := 80;
+		END_IF
+
+	80://release load
+		Grab := FALSE;
+		IF HoldingItem = FALSE THEN
+			State := 90;
+		END_IF
+
+	90://move crane up
+		VerticalMotor.MoveLeft := TRUE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;			
+		IF CraneIsUp = TRUE THEN
+			State := 100;
+		END_IF	
+
+	100://move crane over input
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := TRUE;			
+		IF CraneAboveInput = TRUE THEN
+			State := 20;
+		END_IF			]]></ST>
+    </Implementation>
+    <LineIds Name="Crane">
+      <LineId Id="10" Count="1" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="30" Count="1" />
+      <LineId Id="35" Count="5" />
+      <LineId Id="131" Count="0" />
+      <LineId Id="44" Count="0" />
+      <LineId Id="117" Count="1" />
+      <LineId Id="45" Count="4" />
+      <LineId Id="53" Count="0" />
+      <LineId Id="120" Count="2" />
+      <LineId Id="54" Count="2" />
+      <LineId Id="63" Count="1" />
+      <LineId Id="123" Count="1" />
+      <LineId Id="65" Count="0" />
+      <LineId Id="125" Count="0" />
+      <LineId Id="66" Count="1" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="69" Count="1" />
+      <LineId Id="126" Count="1" />
+      <LineId Id="129" Count="1" />
+      <LineId Id="71" Count="2" />
+      <LineId Id="68" Count="0" />
+      <LineId Id="75" Count="1" />
+      <LineId Id="132" Count="2" />
+      <LineId Id="77" Count="2" />
+      <LineId Id="74" Count="0" />
+      <LineId Id="81" Count="4" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="87" Count="1" />
+      <LineId Id="135" Count="2" />
+      <LineId Id="89" Count="2" />
+      <LineId Id="86" Count="0" />
+      <LineId Id="100" Count="1" />
+      <LineId Id="138" Count="2" />
+      <LineId Id="102" Count="2" />
+      <LineId Id="98" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="MOD_Weighbridge_istSensor" Id="{ac4faa75-c5f2-4c00-be04-55d0ca0009fe}">
+    <Declaration><![CDATA[TYPE MOD_Weighbridge_istSensor :
+STRUCT
+	Weight : REAL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>
