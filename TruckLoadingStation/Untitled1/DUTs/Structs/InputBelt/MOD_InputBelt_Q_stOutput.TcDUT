@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="MOD_InputBelt_Q_stOutput" Id="{7a101e2a-c11f-4068-aefc-1f7f289e4044}">
+    <Declaration><![CDATA[TYPE MOD_InputBelt_Q_stOutput :
+STRUCT
+	BoxReady : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

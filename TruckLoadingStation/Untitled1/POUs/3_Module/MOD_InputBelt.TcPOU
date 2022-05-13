@@ -1,98 +1,99 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="InputBelt" Id="{2a85e218-1bdb-4ed5-9bd6-698ec9057a87}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK InputBelt
+  <POU Name="MOD_InputBelt" Id="{2a85e218-1bdb-4ed5-9bd6-698ec9057a87}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MOD_InputBelt
 VAR_INPUT
-	InputSensor : DEV_Sensor_stOutput;
-	OutputSensor : DEV_Sensor_stOutput;
+	InputSensor : MOD_InputBelt_I_stSensor;
+	OutputSensor : MOD_InputBelt_I_stSensor;
 	CommandA : INT;
 END_VAR
 VAR_OUTPUT
-	NewBox : BOOL;
-	BeltOn : BOOL;
-	BoxReady : BOOL;
+	NewBox : MOD_InputBelt_Q_stRequest;
+	BeltMotorOn : MOD_InputBelt_Q_stMotor;
+	BoxReady : MOD_InputBelt_Q_stOutput;
 END_VAR
 VAR
 	State : INT;
+
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[CASE CommandA OF
 	Command.Error:
-	BeltOn := TRUE;
+	BeltMotorOn.MoveLeft := TRUE;
 END_CASE
 
 
 
 CASE State OF
 	10://startup //reset?
-		IF InputSensor.Detecting = TRUE AND OutputSensor.Detecting = TRUE THEN
+		IF InputSensor.Blocked = TRUE AND OutputSensor.Blocked = TRUE THEN
 			State := 11;
-		ELSIF InputSensor.Detecting = FALSE AND OutputSensor.Detecting = FALSE THEN
+		ELSIF InputSensor.Blocked = FALSE AND OutputSensor.Blocked = FALSE THEN
 			State := 20;
-		ELSIF InputSensor.Detecting = TRUE AND OutputSensor.Detecting = FALSE THEN
+		ELSIF InputSensor.Blocked = TRUE AND OutputSensor.Blocked = FALSE THEN
 			State := 30;
-		ELSIF InputSensor.Detecting = FALSE AND OutputSensor.Detecting = TRUE THEN
+		ELSIF InputSensor.Blocked = FALSE AND OutputSensor.Blocked = TRUE THEN
 			State := 40;		
 		END_IF
 		
 	11://startup boxes on belt.
-		NewBox := FALSE;
-		BeltOn := FALSE;
-		BoxReady := TRUE;
+		NewBox.NewBox := FALSE;
+		BeltMotorOn.MoveLeft := FALSE;
+		BoxReady.BoxReady := TRUE;
 	
-		IF OutputSensor.Detecting = FALSE THEN
+		IF OutputSensor.Blocked = FALSE THEN
 			State := 20;
 		END_IF
 		
 	20://No Box
-		NewBox := TRUE;
-		BeltOn := FALSE;
-		BoxReady := FALSE;
+		NewBox.NewBox := TRUE;
+		BeltMotorOn.MoveLeft := FALSE;
+		BoxReady.BoxReady := FALSE;
 		
-		IF InputSensor.Detecting = TRUE AND OutputSensor = FALSE THEN
+		IF InputSensor.Blocked = TRUE AND OutputSensor.Blocked = FALSE THEN
 			State := 30;
 		END_IF
 	
 	30://retrieve box
-		NewBox := FALSE;
-		BeltOn := TRUE;
-		BoxReady := FALSE;
+		NewBox.NewBox := FALSE;
+		BeltMotorOn.MoveLeft := TRUE;
+		BoxReady.BoxReady := FALSE;
 		
-		IF InputSensor.Detecting = FALSE AND OutputSensor = TRUE THEN
+		IF InputSensor.Blocked = FALSE AND OutputSensor.Blocked = TRUE THEN
 			State := 40;
 		END_IF
 		
 	40://boxready
-		NewBox := FALSE;
-		BeltOn := FALSE;
-		BoxReady := TRUE;
+		NewBox.NewBox := FALSE;
+		BeltMotorOn.MoveLeft := FALSE;
+		BoxReady.BoxReady := TRUE;
 		
-		IF OutputSensor.Detecting = FALSE THEN
+		IF OutputSensor.Blocked = FALSE THEN
 			State := 20;
 		END_IF
 		
 	101://error
-		NewBox := FALSE;
-		BeltOn := FALSE;
-		BoxReady := FALSE;
+		NewBox.NewBox := FALSE;
+		BeltMotorOn.MoveLeft := FALSE;
+		BoxReady.BoxReady := FALSE;
 	
 	102://pause
-		NewBox := FALSE;
-		BeltOn := FALSE;
-		BoxReady := FALSE;
+		NewBox.NewBox := FALSE;
+		BeltMotorOn.MoveLeft := FALSE;
+		BoxReady.BoxReady := FALSE;
 		
 	103://stop
-		NewBox := FALSE;
-		BeltOn := FALSE;
-		BoxReady := FALSE;
+		NewBox.NewBox := FALSE;
+		BeltMotorOn.MoveLeft := FALSE;
+		BoxReady.BoxReady := FALSE;
 		
 	104://reset
 	
 	
 END_CASE]]></ST>
     </Implementation>
-    <LineIds Name="InputBelt">
+    <LineIds Name="MOD_InputBelt">
       <LineId Id="101" Count="0" />
       <LineId Id="103" Count="0" />
       <LineId Id="105" Count="0" />

@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="CON_LoadingStation" Id="{fd02a03d-6b4a-42d7-8b82-6be1646338cc}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK CON_LoadingStation
+VAR_INPUT
+	weighbridge : MOD_WeighBridge_Q_stOutput;
+	
+	inputbelt : MOD_InputBelt_Q_stOutput;
+END_VAR
+VAR_OUTPUT
+	q_crane : MOD_Crane_I_stLoad;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[
+
+
+IF weighbridge.TruckOnScale AND NOT weighbridge.WeightLimitReached THEN
+	q_crane.Ready := inputbelt.BoxReady;
+ELSIF weighbridge.WeightLimitReached THEN
+	q_crane.Ready := FALSE;
+	//command stop
+	//done loading!
+ELSIF NOT weighbridge.TruckOnScale THEN
+	q_crane.Ready := FALSE;
+	//command stop //error?
+	//error no truck
+END_IF
+]]></ST>
+    </Implementation>
+    <LineIds Name="CON_LoadingStation">
+      <LineId Id="14" Count="4" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="26" Count="0" />
+      <LineId Id="25" Count="0" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="9" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

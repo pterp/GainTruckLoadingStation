@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="MOD_Crane_I_stLoad" Id="{7a1b186d-9bd6-4930-8f93-f23d08bfce7a}">
+    <Declaration><![CDATA[TYPE MOD_Crane_I_stLoad :
+STRUCT
+	Ready : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

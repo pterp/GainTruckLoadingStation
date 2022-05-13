@@ -1,25 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <POU Name="Crane" Id="{5ef12530-d6be-413c-8970-2208adcc7e82}" SpecialFunc="None">
-    <Declaration><![CDATA[FUNCTION_BLOCK Crane
+  <POU Name="MOD_Crane" Id="{5ef12530-d6be-413c-8970-2208adcc7e82}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MOD_Crane
 VAR_INPUT
-	InputReady : BOOL;
-	CraneDownSensor : BOOL;
-	CraneUpSensor : BOOL;
-	CraneAboveInput : BOOL;
-	CraneAboveOutput : BOOL;
-	InputSensor: BOOL;
-	OutputSensor: BOOL;
-	LoadReady: BOOL;
+	CraneDownSensor : MOD_Crane_I_stSensor;
+	CraneUpSensor : MOD_Crane_I_stSensor;
+	CraneAboveInput : MOD_Crane_I_stSensor;
+	CraneAboveOutput : MOD_Crane_I_stSensor;
+
+	LoadReady: MOD_Crane_I_stLoad;
 	LoadGrabbed: BOOL;
-	CraneIsUp: BOOL;
-	CraneIsDown : BOOL;
-	HoldingItem: BOOL;
 END_VAR
 VAR_OUTPUT
 	//right is down left is up
-	HorizontalMotor : MOD_Crane_stMotorOutput;
-	VerticalMotor : MOD_Crane_stMotorOutput;
+	HorizontalMotor : MOD_Crane_Q_stMotor;
+	VerticalMotor : MOD_Crane_Q_stMotor;
 	Grab : BOOL;
 END_VAR
 VAR
@@ -37,7 +32,7 @@ END_VAR
 		
 	20://check box ready
 		//wait untill
-		IF InputReady = TRUE THEN
+		IF LoadReady.Ready = TRUE THEN
 			State := 30;
 		END_IF
 	
@@ -46,13 +41,16 @@ END_VAR
 		VerticalMotor.MoveLeft := TRUE;
 		VerticalMotor.MoveRight := FALSE;
 		
-		IF CraneDownSensor = TRUE THEN
+		IF CraneDownSensor.Blocked = TRUE THEN
 			State := 40;
 		END_IF
 		
 	40://grab the load
 		VerticalMotor.MoveLeft := FALSE;
 		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;
+		
 		Grab := TRUE;
 		
 		IF LoadGrabbed = TRUE THEN
@@ -62,9 +60,12 @@ END_VAR
 	50://move crane up
 		VerticalMotor.MoveLeft := TRUE;
 		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;
+		
 		Grab := TRUE;
 		
-		IF CraneUpSensor = TRUE THEN
+		IF CraneUpSensor.Blocked = TRUE THEN
 			State := 60;
 		END_IF
 
@@ -73,8 +74,10 @@ END_VAR
 		VerticalMotor.MoveRight := FALSE;
 		HorizontalMotor.MoveLeft := TRUE;
 		HorizontalMotor.MoveRight := FALSE;
+		
 		Grab := TRUE;
-		IF CraneAboveInput = TRUE THEN
+		
+		IF CraneAboveInput.Blocked = TRUE THEN
 			State := 70;
 		END_IF
 
@@ -82,14 +85,15 @@ END_VAR
 		VerticalMotor.MoveLeft := FALSE;
 		VerticalMotor.MoveRight := TRUE;
 		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;		
-		IF OutputSensor = FALSE THEN
+		HorizontalMotor.MoveRight := FALSE;	
+	
+		IF CraneDownSensor.Blocked = TRUE THEN
 			State := 80;
 		END_IF
 
 	80://release load
 		Grab := FALSE;
-		IF HoldingItem = FALSE THEN
+		IF LoadGrabbed = FALSE THEN
 			State := 90;
 		END_IF
 
@@ -97,8 +101,9 @@ END_VAR
 		VerticalMotor.MoveLeft := TRUE;
 		VerticalMotor.MoveRight := FALSE;
 		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;			
-		IF CraneIsUp = TRUE THEN
+		HorizontalMotor.MoveRight := FALSE;	
+		
+		IF CraneUpSensor.Blocked = TRUE THEN
 			State := 100;
 		END_IF	
 
@@ -106,12 +111,14 @@ END_VAR
 		VerticalMotor.MoveLeft := FALSE;
 		VerticalMotor.MoveRight := FALSE;
 		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := TRUE;			
-		IF CraneAboveInput = TRUE THEN
+		HorizontalMotor.MoveRight := TRUE;
+			
+		IF CraneAboveInput.Blocked = TRUE THEN
 			State := 20;
-		END_IF			]]></ST>
+		END_IF
+END_CASE			]]></ST>
     </Implementation>
-    <LineIds Name="Crane">
+    <LineIds Name="MOD_Crane">
       <LineId Id="10" Count="1" />
       <LineId Id="20" Count="1" />
       <LineId Id="30" Count="1" />
@@ -121,10 +128,17 @@ END_VAR
       <LineId Id="117" Count="1" />
       <LineId Id="45" Count="4" />
       <LineId Id="53" Count="0" />
-      <LineId Id="120" Count="2" />
+      <LineId Id="120" Count="0" />
+      <LineId Id="203" Count="0" />
+      <LineId Id="205" Count="0" />
+      <LineId Id="204" Count="0" />
+      <LineId Id="121" Count="1" />
       <LineId Id="54" Count="2" />
       <LineId Id="63" Count="1" />
       <LineId Id="123" Count="1" />
+      <LineId Id="200" Count="0" />
+      <LineId Id="202" Count="0" />
+      <LineId Id="201" Count="0" />
       <LineId Id="65" Count="0" />
       <LineId Id="125" Count="0" />
       <LineId Id="66" Count="1" />
@@ -132,22 +146,32 @@ END_VAR
       <LineId Id="69" Count="1" />
       <LineId Id="126" Count="1" />
       <LineId Id="129" Count="1" />
-      <LineId Id="71" Count="2" />
+      <LineId Id="199" Count="0" />
+      <LineId Id="71" Count="0" />
+      <LineId Id="198" Count="0" />
+      <LineId Id="72" Count="1" />
       <LineId Id="68" Count="0" />
       <LineId Id="75" Count="1" />
       <LineId Id="132" Count="2" />
-      <LineId Id="77" Count="2" />
+      <LineId Id="77" Count="0" />
+      <LineId Id="197" Count="0" />
+      <LineId Id="78" Count="1" />
       <LineId Id="74" Count="0" />
       <LineId Id="81" Count="4" />
       <LineId Id="80" Count="0" />
       <LineId Id="87" Count="1" />
       <LineId Id="135" Count="2" />
-      <LineId Id="89" Count="2" />
+      <LineId Id="89" Count="0" />
+      <LineId Id="196" Count="0" />
+      <LineId Id="90" Count="1" />
       <LineId Id="86" Count="0" />
       <LineId Id="100" Count="1" />
       <LineId Id="138" Count="2" />
-      <LineId Id="102" Count="2" />
+      <LineId Id="102" Count="0" />
+      <LineId Id="195" Count="0" />
+      <LineId Id="103" Count="1" />
       <LineId Id="98" Count="0" />
+      <LineId Id="194" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

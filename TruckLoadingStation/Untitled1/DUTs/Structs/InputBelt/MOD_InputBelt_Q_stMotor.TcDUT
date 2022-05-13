@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
-  <DUT Name="MOD_Crane_stMotorOutput" Id="{c6dd3985-f911-4dc9-9057-83aca77ca140}">
-    <Declaration><![CDATA[TYPE MOD_Crane_stMotorOutput :
+  <DUT Name="MOD_InputBelt_Q_stMotor" Id="{a627231d-3f0c-4ba3-8401-c74d85b13290}">
+    <Declaration><![CDATA[TYPE MOD_InputBelt_Q_stMotor :
 STRUCT
 	Command : INT;
 	MoveLeft : BOOL;

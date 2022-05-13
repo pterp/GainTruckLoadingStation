@@ -3,14 +3,19 @@
   <POU Name="MAIN" Id="{3bcc1047-ddf4-456f-8ab1-83140f54896c}" SpecialFunc="None">
     <Declaration><![CDATA[PROGRAM MAIN
 VAR
-
+	fbbelt : MOD_InputBelt;
+	fbcrane : MOD_Crane;
+	fbweighbridge : MOD_Weighbridge;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[fbbelt();
+fbcrane();
+fbweighbridge();]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="8" Count="0" />
+      <LineId Id="15" Count="1" />
     </LineIds>
   </POU>
 </TcPlcObject>
