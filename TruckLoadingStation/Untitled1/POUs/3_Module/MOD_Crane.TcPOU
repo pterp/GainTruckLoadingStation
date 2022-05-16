@@ -8,6 +8,7 @@ VAR_INPUT
 	CraneAboveInput : MOD_Crane_I_stSensor;
 	CraneAboveOutput : MOD_Crane_I_stSensor;
 
+	CommandState : INT;
 	LoadReady: MOD_Crane_I_stLoad;
 	LoadGrabbed: BOOL;
 END_VAR
@@ -21,13 +22,57 @@ VAR
 	State: INT;
 	MotorDirection : (Left, Right, Stopped);
 
+	Executing : BOOL := FALSE;//variable for main state. used for orderly code	
 	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE State OF
-	10://startup //reset?
+      <ST><![CDATA[CASE CommandState OF
+	Command.Error:
+		Executing := FALSE;
+		State := 10;//reset state
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;	
+		
+	Command.Executing:
+		Executing := TRUE;
+		
+	Command.Pause:
+		Executing := FALSE;
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;	
+		
+	Command.Reset:
+		Executing := FALSE;
+		State := 10;//reset state
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;	
+		
+	Command.Stop:
+		Executing := FALSE;
+		State := 10;//reset state
+		VerticalMotor.MoveLeft := FALSE;
+		VerticalMotor.MoveRight := FALSE;
+		HorizontalMotor.MoveLeft := FALSE;
+		HorizontalMotor.MoveRight := FALSE;	
+		
+END_CASE
 
+
+
+CASE State OF
+	10://startup //reset?
+		IF CraneAboveInput.Blocked THEN
+			State := 20;
+		ELSE
+			State := 90;
+		END_IF
 		
 		
 	20://check box ready
@@ -119,8 +164,31 @@ END_VAR
 END_CASE			]]></ST>
     </Implementation>
     <LineIds Name="MOD_Crane">
+      <LineId Id="213" Count="1" />
+      <LineId Id="216" Count="1" />
+      <LineId Id="250" Count="2" />
+      <LineId Id="249" Count="0" />
+      <LineId Id="218" Count="5" />
+      <LineId Id="245" Count="2" />
+      <LineId Id="225" Count="0" />
+      <LineId Id="248" Count="0" />
+      <LineId Id="226" Count="2" />
+      <LineId Id="241" Count="2" />
+      <LineId Id="230" Count="0" />
+      <LineId Id="244" Count="0" />
+      <LineId Id="231" Count="2" />
+      <LineId Id="238" Count="2" />
+      <LineId Id="237" Count="0" />
+      <LineId Id="235" Count="0" />
+      <LineId Id="210" Count="0" />
+      <LineId Id="254" Count="0" />
+      <LineId Id="211" Count="1" />
       <LineId Id="10" Count="1" />
-      <LineId Id="20" Count="1" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="206" Count="0" />
+      <LineId Id="208" Count="1" />
+      <LineId Id="207" Count="0" />
+      <LineId Id="21" Count="0" />
       <LineId Id="30" Count="1" />
       <LineId Id="35" Count="5" />
       <LineId Id="131" Count="0" />

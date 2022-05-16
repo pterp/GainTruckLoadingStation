@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <GVL Name="Parts" Id="{39ab5b12-d405-47e1-bf90-34703362e58f}">
+    <Declaration><![CDATA[{attribute 'qualified_only'}
+VAR_GLOBAL
+	//control
+	Loadingstation : CON_LoadingStation; 
+	
+	//Modules
+	Belt : MOD_InputBelt;
+	Crane : MOD_Crane;
+	Weighbridge : MOD_Weighbridge;
+	
+	//devices
+END_VAR]]></Declaration>
+  </GVL>
+</TcPlcObject>

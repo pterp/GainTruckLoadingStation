@@ -56,6 +56,10 @@
     <Compile Include="DUTs\Structs\WeighBridge\MOD_Weighbridge_I_stSensor.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GVLs\Parts.TcGVL">
+      <SubType>Code</SubType>
+      <LinkAlways>true</LinkAlways>
+    </Compile>
     <Compile Include="PlcTask.TcTTO">
       <SubType>Code</SubType>
     </Compile>
@@ -66,6 +70,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\4_Devices\Sensor_Notimplemented.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Application\FB2_Control.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Application\FB3_Modules.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\Application\FB4_Devices.TcPOU">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\MAIN.TcPOU">
@@ -96,6 +109,7 @@
     <Folder Include="POUs\3_Module" />
     <Folder Include="POUs\4_Devices" />
     <Folder Include="POUs\2_Control" />
+    <Folder Include="POUs\Application" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />
   </ItemGroup>

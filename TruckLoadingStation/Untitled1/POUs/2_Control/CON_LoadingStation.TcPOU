@@ -16,7 +16,7 @@ END_VAR
     <Implementation>
       <ST><![CDATA[
 
-
+//check if there is a truck before running. Also check for weightlimit
 IF weighbridge.TruckOnScale AND NOT weighbridge.WeightLimitReached THEN
 	q_crane.Ready := inputbelt.BoxReady;
 ELSIF weighbridge.WeightLimitReached THEN

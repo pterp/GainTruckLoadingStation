@@ -6,16 +6,28 @@ VAR
 	fbbelt : MOD_InputBelt;
 	fbcrane : MOD_Crane;
 	fbweighbridge : MOD_Weighbridge;
+	
+	Timer_TimeOut : TON;
+	statefortime : INT;
+	running : int := 1;
 END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[fbbelt();
 fbcrane();
-fbweighbridge();]]></ST>
+fbweighbridge();
+
+// time out
+Timer_TimeOut(IN := statefortime = running, PT := T#10S);
+]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
       <LineId Id="8" Count="0" />
       <LineId Id="15" Count="1" />
+      <LineId Id="27" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="23" Count="0" />
+      <LineId Id="17" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
