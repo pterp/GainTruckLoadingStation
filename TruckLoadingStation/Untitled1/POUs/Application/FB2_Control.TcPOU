@@ -11,9 +11,9 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//loadingstation
-Parts.Loadingstation(inputbelt := Parts.Belt.BoxReady, 
-	weighbridge := Parts.Weighbridge.Output,
-	q_crane => Parts.Crane.LoadReady);]]></ST>
+Parts.Loadingstation(i_inputbelt := Parts.Belt.q_BoxReady, 
+	i_weighbridge := Parts.Weighbridge.q_Output,
+	q_crane => Parts.Crane.i_LoadReady);]]></ST>
     </Implementation>
     <LineIds Name="FB2_Control">
       <LineId Id="16" Count="0" />

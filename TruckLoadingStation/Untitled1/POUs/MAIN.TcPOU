@@ -9,19 +9,33 @@ VAR
 	
 	Timer_TimeOut : TON;
 	statefortime : INT;
-	running : int := 1;
+	running : INT := 1;
+	
+	Control : FB2_Control;
+	Modules : FB3_Modules;
+	
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[fbbelt();
+      <ST><![CDATA[
+
+Control();
+Modules();
+
+
+
+(*
+fbbelt();
 fbcrane();
 fbweighbridge();
 
 // time out
 Timer_TimeOut(IN := statefortime = running, PT := T#10S);
-]]></ST>
+*)]]></ST>
     </Implementation>
     <LineIds Name="MAIN">
+      <LineId Id="43" Count="6" />
+      <LineId Id="42" Count="0" />
       <LineId Id="8" Count="0" />
       <LineId Id="15" Count="1" />
       <LineId Id="27" Count="0" />

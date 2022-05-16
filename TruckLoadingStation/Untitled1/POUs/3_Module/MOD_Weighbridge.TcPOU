@@ -3,35 +3,46 @@
   <POU Name="MOD_Weighbridge" Id="{adb499aa-6201-4292-b9d1-d349fb2c2ab6}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MOD_Weighbridge
 VAR_INPUT
-	Definitions : MOD_WeighBridge_I_stDefinitions;
-	Sensor : MOD_Weighbridge_I_stSensor;
+	i_Definitions : MOD_WeighBridge_I_stDefinitions;
+	i_Sensor : MOD_Weighbridge_I_stSensor;
 END_VAR
 VAR_OUTPUT
-	Output : MOD_WeighBridge_Q_stOutput;
+	q_Output : MOD_WeighBridge_Q_stOutput;
+END_VAR
+VAR_IN_OUT
+	iq_CommandState : INT;
 END_VAR
 VAR
 	State : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF Sensor.Weight <= Definitions.OperatingWeight THEN
-	Output.TruckOnScale := FALSE;
-ELSE
-	Output.TruckOnScale := TRUE;	
-END_IF
+      <ST><![CDATA[IF iq_CommandState = Command.Executing THEN
 
-IF Sensor.Weight > Definitions.WeightLimit - Definitions.DetractorWeight THEN
-	Output.WeightLimitReached := TRUE;
+	IF i_Sensor.Weight <= i_Definitions.OperatingWeight THEN
+		q_Output.TruckOnScale := FALSE;
+	ELSE
+		q_Output.TruckOnScale := TRUE;	
+	END_IF
+	
+	IF i_Sensor.Weight > i_Definitions.WeightLimit - i_Definitions.DetractorWeight THEN
+		q_Output.WeightLimitReached := TRUE;
+	ELSE
+		q_Output.WeightLimitReached := FALSE;
+	END_IF
+	
+	IF FALSE THEN //error stop pause ETC
+		q_Output.WeightLimitReached := FALSE;
+		q_Output.TruckOnScale := FALSE;
+	END_IF
 ELSE
-	Output.WeightLimitReached := FALSE;
-END_IF
-
-IF FALSE THEN //error stop pause ETC
-	Output.WeightLimitReached := FALSE;
-	Output.TruckOnScale := FALSE;
+	q_Output.TruckOnScale := FALSE;
+	q_Output.WeightLimitReached := FALSE;
 END_IF]]></ST>
     </Implementation>
     <LineIds Name="MOD_Weighbridge">
+      <LineId Id="61" Count="0" />
+      <LineId Id="63" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="35" Count="1" />
       <LineId Id="33" Count="1" />
@@ -45,6 +56,8 @@ END_IF]]></ST>
       <LineId Id="44" Count="0" />
       <LineId Id="46" Count="0" />
       <LineId Id="45" Count="0" />
+      <LineId Id="65" Count="2" />
+      <LineId Id="64" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

@@ -3,9 +3,9 @@
   <POU Name="CON_LoadingStation" Id="{fd02a03d-6b4a-42d7-8b82-6be1646338cc}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK CON_LoadingStation
 VAR_INPUT
-	weighbridge : MOD_WeighBridge_Q_stOutput;
+	i_weighbridge : MOD_WeighBridge_Q_stOutput;
 	
-	inputbelt : MOD_InputBelt_Q_stOutput;
+	i_inputbelt : MOD_InputBelt_Q_stOutput;
 END_VAR
 VAR_OUTPUT
 	q_crane : MOD_Crane_I_stLoad;
@@ -17,13 +17,13 @@ END_VAR
       <ST><![CDATA[
 
 //check if there is a truck before running. Also check for weightlimit
-IF weighbridge.TruckOnScale AND NOT weighbridge.WeightLimitReached THEN
-	q_crane.Ready := inputbelt.BoxReady;
-ELSIF weighbridge.WeightLimitReached THEN
+IF i_weighbridge.TruckOnScale AND NOT i_weighbridge.WeightLimitReached THEN
+	q_crane.Ready := i_inputbelt.BoxReady;
+ELSIF i_weighbridge.WeightLimitReached THEN
 	q_crane.Ready := FALSE;
 	//command stop
 	//done loading!
-ELSIF NOT weighbridge.TruckOnScale THEN
+ELSIF NOT i_weighbridge.TruckOnScale THEN
 	q_crane.Ready := FALSE;
 	//command stop //error?
 	//error no truck

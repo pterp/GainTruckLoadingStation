@@ -3,20 +3,23 @@
   <POU Name="MOD_Crane" Id="{5ef12530-d6be-413c-8970-2208adcc7e82}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MOD_Crane
 VAR_INPUT
-	CraneDownSensor : MOD_Crane_I_stSensor;
-	CraneUpSensor : MOD_Crane_I_stSensor;
-	CraneAboveInput : MOD_Crane_I_stSensor;
-	CraneAboveOutput : MOD_Crane_I_stSensor;
+	i_CraneDownSensor : MOD_Crane_I_stSensor;
+	i_CraneUpSensor : MOD_Crane_I_stSensor;
+	i_CraneAboveInput : MOD_Crane_I_stSensor;
+	i_CraneAboveOutput : MOD_Crane_I_stSensor;
 
-	CommandState : INT;
-	LoadReady: MOD_Crane_I_stLoad;
-	LoadGrabbed: BOOL;
+
+	i_LoadReady: MOD_Crane_I_stLoad;
+	i_LoadGrabbed: BOOL;
 END_VAR
 VAR_OUTPUT
 	//right is down left is up
-	HorizontalMotor : MOD_Crane_Q_stMotor;
-	VerticalMotor : MOD_Crane_Q_stMotor;
-	Grab : BOOL;
+	q_HorizontalMotor : MOD_Crane_Q_stMotor;
+	q_VerticalMotor : MOD_Crane_Q_stMotor;
+	q_Grab : BOOL;
+END_VAR
+VAR_IN_OUT
+	iq_CommandState : INT;
 END_VAR
 VAR
 	State: INT;
@@ -27,40 +30,40 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[CASE CommandState OF
+      <ST><![CDATA[CASE iq_CommandState OF
 	Command.Error:
 		Executing := FALSE;
 		State := 10;//reset state
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;	
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;
 		
 	Command.Executing:
 		Executing := TRUE;
 		
 	Command.Pause:
 		Executing := FALSE;
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;	
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;
 		
 	Command.Reset:
 		Executing := FALSE;
 		State := 10;//reset state
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;	
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;
 		
 	Command.Stop:
 		Executing := FALSE;
 		State := 10;//reset state
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;	
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;	
 		
 END_CASE
 
@@ -68,7 +71,7 @@ END_CASE
 
 CASE State OF
 	10://startup //reset?
-		IF CraneAboveInput.Blocked THEN
+		IF i_CraneAboveInput.Blocked THEN
 			State := 20;
 		ELSE
 			State := 90;
@@ -77,88 +80,88 @@ CASE State OF
 		
 	20://check box ready
 		//wait untill
-		IF LoadReady.Ready = TRUE THEN
+		IF i_LoadReady.Ready = TRUE THEN
 			State := 30;
 		END_IF
 	
 	30://move crane down
 		
-		VerticalMotor.MoveLeft := TRUE;
-		VerticalMotor.MoveRight := FALSE;
+		q_VerticalMotor.MoveLeft := TRUE;
+		q_VerticalMotor.MoveRight := FALSE;
 		
-		IF CraneDownSensor.Blocked = TRUE THEN
+		IF i_CraneDownSensor.Blocked = TRUE THEN
 			State := 40;
 		END_IF
 		
 	40://grab the load
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;
 		
-		Grab := TRUE;
+		q_Grab := TRUE;
 		
-		IF LoadGrabbed = TRUE THEN
+		IF i_LoadGrabbed = TRUE THEN
 			State := 50;
 		END_IF
 
 	50://move crane up
-		VerticalMotor.MoveLeft := TRUE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;
+		q_VerticalMotor.MoveLeft := TRUE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;
 		
-		Grab := TRUE;
+		q_Grab := TRUE;
 		
-		IF CraneUpSensor.Blocked = TRUE THEN
+		IF i_CraneUpSensor.Blocked = TRUE THEN
 			State := 60;
 		END_IF
 
 	60://move crane to output position
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := TRUE;
-		HorizontalMotor.MoveRight := FALSE;
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := TRUE;
+		q_HorizontalMotor.MoveRight := FALSE;
 		
-		Grab := TRUE;
+		q_Grab := TRUE;
 		
-		IF CraneAboveInput.Blocked = TRUE THEN
+		IF i_CraneAboveInput.Blocked = TRUE THEN
 			State := 70;
 		END_IF
 
 	70://move crane down
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := TRUE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;	
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := TRUE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;	
 	
-		IF CraneDownSensor.Blocked = TRUE THEN
+		IF i_CraneDownSensor.Blocked = TRUE THEN
 			State := 80;
 		END_IF
 
 	80://release load
-		Grab := FALSE;
-		IF LoadGrabbed = FALSE THEN
+		q_Grab := FALSE;
+		IF i_LoadGrabbed = FALSE THEN
 			State := 90;
 		END_IF
 
 	90://move crane up
-		VerticalMotor.MoveLeft := TRUE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := FALSE;	
+		q_VerticalMotor.MoveLeft := TRUE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := FALSE;	
 		
-		IF CraneUpSensor.Blocked = TRUE THEN
+		IF i_CraneUpSensor.Blocked = TRUE THEN
 			State := 100;
 		END_IF	
 
 	100://move crane over input
-		VerticalMotor.MoveLeft := FALSE;
-		VerticalMotor.MoveRight := FALSE;
-		HorizontalMotor.MoveLeft := FALSE;
-		HorizontalMotor.MoveRight := TRUE;
+		q_VerticalMotor.MoveLeft := FALSE;
+		q_VerticalMotor.MoveRight := FALSE;
+		q_HorizontalMotor.MoveLeft := FALSE;
+		q_HorizontalMotor.MoveRight := TRUE;
 			
-		IF CraneAboveInput.Blocked = TRUE THEN
+		IF i_CraneAboveInput.Blocked = TRUE THEN
 			State := 20;
 		END_IF
 END_CASE			]]></ST>
@@ -166,14 +169,14 @@ END_CASE			]]></ST>
     <LineIds Name="MOD_Crane">
       <LineId Id="213" Count="1" />
       <LineId Id="216" Count="1" />
-      <LineId Id="250" Count="2" />
+      <LineId Id="285" Count="2" />
       <LineId Id="249" Count="0" />
       <LineId Id="218" Count="5" />
-      <LineId Id="245" Count="2" />
+      <LineId Id="282" Count="2" />
       <LineId Id="225" Count="0" />
       <LineId Id="248" Count="0" />
       <LineId Id="226" Count="2" />
-      <LineId Id="241" Count="2" />
+      <LineId Id="279" Count="2" />
       <LineId Id="230" Count="0" />
       <LineId Id="244" Count="0" />
       <LineId Id="231" Count="2" />
