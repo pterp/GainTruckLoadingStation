@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="MOD_Loadingstation_I_stWeighbridge" Id="{5d43f768-49da-4f26-ae7b-63000d81fc6a}">
+    <Declaration><![CDATA[TYPE MOD_Loadingstation_I_stWeighbridge :
+STRUCT
+	TruckOnScale : BOOL;
+	WeightLimitReached : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

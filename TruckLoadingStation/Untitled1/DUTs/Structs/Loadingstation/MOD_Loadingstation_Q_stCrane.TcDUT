@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <DUT Name="MOD_Loadingstation_Q_stCrane" Id="{ab939a42-05d7-4834-88e2-3396fcaffa12}">
+    <Declaration><![CDATA[TYPE MOD_Loadingstation_Q_stCrane :
+STRUCT
+	AllowedToOperate : BOOL;
+END_STRUCT
+END_TYPE
+]]></Declaration>
+  </DUT>
+</TcPlcObject>

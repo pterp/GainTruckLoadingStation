@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Refactors>
+  <Renames>
+    <RenamedType>
+      <Type guid="ab939a42-05d7-4834-88e2-3396fcaffa12">MOD_LOADINGSTATION_I_STCRANE</Type>
+      <From>MOD_Loadingstation_I_stCrane</From>
+      <To>MOD_Loadingstation_Q_stCrane</To>
+    </RenamedType>
+  </Renames>
+</Refactors>

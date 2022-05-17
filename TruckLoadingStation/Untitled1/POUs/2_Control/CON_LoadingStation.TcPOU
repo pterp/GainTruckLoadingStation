@@ -3,18 +3,17 @@
   <POU Name="CON_LoadingStation" Id="{fd02a03d-6b4a-42d7-8b82-6be1646338cc}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK CON_LoadingStation
 VAR_INPUT
-	i_weighbridge : MOD_WeighBridge_Q_stOutput;
-	
-	i_inputbelt : MOD_InputBelt_Q_stOutput;
+	i_weighbridge : MOD_Loadingstation_I_stWeighbridge;
+	i_tempIWantExtraBoxInTruck : BOOL;
 END_VAR
 VAR_OUTPUT
-	q_crane : MOD_Crane_I_stLoad;
+	q_crane : MOD_Loadingstation_Q_stCrane;
 END_VAR
 VAR_IN_OUT
 	iq_CommandState : INT;
 END_VAR
 VAR
-	tempIWantExtraBoxInTruck : BOOL;
+
 	resetState : INT;
 END_VAR
 ]]></Declaration>
@@ -30,7 +29,8 @@ IF i_weighbridge.TruckOnScale AND NOT i_weighbridge.WeightLimitReached THEN
 		1:
 			iq_CommandState := Command.Executing;
 	END_CASE
-ELSIF tempIWantExtraBoxInTruck THEN //is supposed to be a button press
+// if operator wants an extra box loaded above the limit.
+ELSIF i_tempIWantExtraBoxInTruck THEN //is supposed to be a button press
 	q_crane.AllowedToOperate := TRUE;
 	CASE resetState OF
 		0:
@@ -63,6 +63,7 @@ END_CASE]]></ST>
       <LineId Id="16" Count="2" />
       <LineId Id="103" Count="6" />
       <LineId Id="79" Count="0" />
+      <LineId Id="113" Count="0" />
       <LineId Id="77" Count="1" />
       <LineId Id="96" Count="6" />
       <LineId Id="80" Count="0" />

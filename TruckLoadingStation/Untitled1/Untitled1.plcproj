@@ -44,6 +44,12 @@
     <Compile Include="DUTs\Structs\InputBelt\MOD_InputBelt_Q_stRequest.TcDUT">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="DUTs\Structs\Loadingstation\MOD_Loadingstation_I_stWeighbridge.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="DUTs\Structs\Loadingstation\MOD_Loadingstation_Q_stCrane.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="DUTs\Structs\Sensor\DEV_Sensor_stOutput.TcDUT">
       <SubType>Code</SubType>
     </Compile>
@@ -106,6 +112,7 @@
     <Folder Include="DUTs\Structs\Crane" />
     <Folder Include="DUTs\Structs\InputBelt" />
     <Folder Include="DUTs\Structs\Motor" />
+    <Folder Include="DUTs\Structs\Loadingstation" />
     <Folder Include="DUTs\Structs\Sensor" />
     <Folder Include="DUTs\Structs\WeighBridge" />
     <Folder Include="GVLs" />

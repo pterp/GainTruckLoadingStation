@@ -11,15 +11,13 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//loadingstation
-Parts.Loadingstation(i_inputbelt := Parts.Belt.q_BoxReady, 
-	iq_Commandstate := Parts.GlobalCommandState,
+Parts.Loadingstation(iq_Commandstate := Parts.GlobalCommandState,
 	i_weighbridge := Parts.Weighbridge.q_Output,
-	q_crane => Parts.Crane.i_Input);]]></ST>
+	q_crane => Parts.Crane.i_Input.AllowedToOperate);]]></ST>
     </Implementation>
     <LineIds Name="FB2_Control">
       <LineId Id="16" Count="0" />
       <LineId Id="15" Count="0" />
-      <LineId Id="17" Count="0" />
       <LineId Id="19" Count="0" />
       <LineId Id="18" Count="0" />
     </LineIds>
