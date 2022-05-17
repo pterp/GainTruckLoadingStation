@@ -10,7 +10,12 @@ END_VAR
 VAR_OUTPUT
 	q_crane : MOD_Crane_I_stLoad;
 END_VAR
+VAR_IN_OUT
+	iq_CommandState : INT;
+END_VAR
 VAR
+	tempIWantExtraBoxInTruck : BOOL;
+	temp : INT := 1;
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -18,20 +23,24 @@ END_VAR
 
 //check if there is a truck before running. Also check for weightlimit
 IF i_weighbridge.TruckOnScale AND NOT i_weighbridge.WeightLimitReached THEN
-	q_crane.Ready := i_inputbelt.BoxReady;
+	q_crane.AllowedToOperate := TRUE;
+ELSIF tempIWantExtraBoxInTruck THEN //is supposed to be a button press
+	q_crane.AllowedToOperate := TRUE;
 ELSIF i_weighbridge.WeightLimitReached THEN
-	q_crane.Ready := FALSE;
+	q_crane.AllowedToOperate := FALSE;
 	//command stop
 	//done loading!
 ELSIF NOT i_weighbridge.TruckOnScale THEN
-	q_crane.Ready := FALSE;
+	q_crane.AllowedToOperate := FALSE;
 	//command stop //error?
 	//error no truck
 END_IF
+
 ]]></ST>
     </Implementation>
     <LineIds Name="CON_LoadingStation">
       <LineId Id="14" Count="4" />
+      <LineId Id="77" Count="1" />
       <LineId Id="21" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="29" Count="0" />
@@ -41,6 +50,7 @@ END_IF
       <LineId Id="30" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="19" Count="0" />
+      <LineId Id="50" Count="0" />
       <LineId Id="9" Count="0" />
     </LineIds>
   </POU>

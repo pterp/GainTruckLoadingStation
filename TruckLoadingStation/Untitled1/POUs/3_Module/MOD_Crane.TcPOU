@@ -8,9 +8,8 @@ VAR_INPUT
 	i_CraneAboveInput : MOD_Crane_I_stSensor;
 	i_CraneAboveOutput : MOD_Crane_I_stSensor;
 
-
-	i_LoadReady: MOD_Crane_I_stLoad;
-	i_LoadGrabbed: BOOL;
+	i_Input : MOD_Crane_I_stLoad;
+	i_LoadGrabbed : BOOL;
 END_VAR
 VAR_OUTPUT
 	//right is down left is up
@@ -22,11 +21,9 @@ VAR_IN_OUT
 	iq_CommandState : INT;
 END_VAR
 VAR
-	State: INT;
+	State: INT := 10;
 	MotorDirection : (Left, Right, Stopped);
-
-	Executing : BOOL := FALSE;//variable for main state. used for orderly code	
-	
+	Executing : BOOL := FALSE;//variable for main state. used for orderly code		
 END_VAR
 ]]></Declaration>
     <Implementation>
@@ -68,7 +65,7 @@ END_VAR
 END_CASE
 
 
-
+IF Executing THEN
 CASE State OF
 	10://startup //reset?
 		IF i_CraneAboveInput.Blocked THEN
@@ -77,10 +74,15 @@ CASE State OF
 			State := 90;
 		END_IF
 		
-		
-	20://check box ready
+	20://operational approval
 		//wait untill
-		IF i_LoadReady.Ready = TRUE THEN
+		IF i_Input.AllowedToOperate = TRUE THEN
+			State := 21;
+		END_IF
+		
+	21://check box ready
+		//wait untill
+		IF i_Input.Ready = TRUE THEN
 			State := 30;
 		END_IF
 	
@@ -164,7 +166,8 @@ CASE State OF
 		IF i_CraneAboveInput.Blocked = TRUE THEN
 			State := 20;
 		END_IF
-END_CASE			]]></ST>
+END_CASE
+END_IF			]]></ST>
     </Implementation>
     <LineIds Name="MOD_Crane">
       <LineId Id="213" Count="1" />
@@ -192,7 +195,10 @@ END_CASE			]]></ST>
       <LineId Id="208" Count="1" />
       <LineId Id="207" Count="0" />
       <LineId Id="21" Count="0" />
-      <LineId Id="30" Count="1" />
+      <LineId Id="292" Count="3" />
+      <LineId Id="30" Count="0" />
+      <LineId Id="296" Count="0" />
+      <LineId Id="31" Count="0" />
       <LineId Id="35" Count="5" />
       <LineId Id="131" Count="0" />
       <LineId Id="44" Count="0" />
@@ -243,6 +249,7 @@ END_CASE			]]></ST>
       <LineId Id="103" Count="1" />
       <LineId Id="98" Count="0" />
       <LineId Id="194" Count="0" />
+      <LineId Id="291" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>

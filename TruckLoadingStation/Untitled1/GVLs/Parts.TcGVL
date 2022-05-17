@@ -3,6 +3,8 @@
   <GVL Name="Parts" Id="{39ab5b12-d405-47e1-bf90-34703362e58f}">
     <Declaration><![CDATA[{attribute 'qualified_only'}
 VAR_GLOBAL
+	GlobalCommandState : INT;	
+
 	//control
 	Loadingstation : CON_LoadingStation; 
 	
@@ -10,6 +12,7 @@ VAR_GLOBAL
 	Belt : MOD_InputBelt;
 	Crane : MOD_Crane;
 	Weighbridge : MOD_Weighbridge;
+	MechanicalGrabCrane : MOD_MechanicalGrabCrane;
 	
 	//devices
 END_VAR]]></Declaration>

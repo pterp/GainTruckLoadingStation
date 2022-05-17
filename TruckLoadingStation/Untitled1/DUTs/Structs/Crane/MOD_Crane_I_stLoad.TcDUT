@@ -4,6 +4,7 @@
     <Declaration><![CDATA[TYPE MOD_Crane_I_stLoad :
 STRUCT
 	Ready : BOOL;
+	AllowedToOperate : BOOL;
 END_STRUCT
 END_TYPE
 ]]></Declaration>

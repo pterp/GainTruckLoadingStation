@@ -15,7 +15,7 @@ VAR_IN_OUT
 	iq_CommandState : INT;
 END_VAR
 VAR
-	State : INT;
+	State : INT := 10;
 	Executing : BOOL := FALSE;//variable for main state. used for orderly code
 END_VAR
 ]]></Declaration>

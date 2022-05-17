@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="MOD_MechanicalGrabCrane" Id="{e9ad765d-df1b-43cb-8d64-2c01e6d8fa10}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK MOD_MechanicalGrabCrane
+VAR_INPUT
+	i_Grab : BOOL;
+	i_sensor : BOOL;
+END_VAR
+VAR_OUTPUT
+	q_Grabbed : BOOL;
+	q_motor : BOOL;
+END_VAR
+VAR_IN_OUT
+	iq_CommandState : INT;
+END_VAR
+VAR
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//simplified. funvtionality of this doenst matter
+q_Grabbed := i_Grab;
+
+
+//if i_grab then activate motor to grab
+//if sensor confirms grab then hold motor and set grabbed true]]></ST>
+    </Implementation>
+    <LineIds Name="MOD_MechanicalGrabCrane">
+      <LineId Id="9" Count="0" />
+      <LineId Id="17" Count="0" />
+      <LineId Id="20" Count="1" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="22" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

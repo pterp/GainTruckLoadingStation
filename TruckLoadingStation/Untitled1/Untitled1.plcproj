@@ -66,6 +66,9 @@
     <Compile Include="POUs\2_Control\CON_LoadingStation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\3_Module\MOD_MechanicalGrabCrane.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\4_Devices\Motor_Notimplemented.TcPOU">
       <SubType>Code</SubType>
     </Compile>
