@@ -30,7 +30,6 @@ END_VAR
       <ST><![CDATA[CASE iq_CommandState OF
 	Command.Error:
 		Executing := FALSE;
-		State := 10;//reset state
 		q_VerticalMotor.MoveLeft := FALSE;
 		q_VerticalMotor.MoveRight := FALSE;
 		q_HorizontalMotor.MoveLeft := FALSE;
@@ -55,13 +54,15 @@ END_VAR
 		q_HorizontalMotor.MoveRight := FALSE;
 		
 	Command.Stop:
-		Executing := FALSE;
-		State := 10;//reset state
-		q_VerticalMotor.MoveLeft := FALSE;
-		q_VerticalMotor.MoveRight := FALSE;
-		q_HorizontalMotor.MoveLeft := FALSE;
-		q_HorizontalMotor.MoveRight := FALSE;	
-		
+		IF State = 20 THEN
+			Executing := FALSE;
+			q_VerticalMotor.MoveLeft := FALSE;
+			q_VerticalMotor.MoveRight := FALSE;
+			q_HorizontalMotor.MoveLeft := FALSE;
+			q_HorizontalMotor.MoveRight := FALSE;	
+		ELSE
+			Executing := TRUE;	
+		END_IF
 END_CASE
 
 
@@ -171,7 +172,7 @@ END_IF			]]></ST>
     </Implementation>
     <LineIds Name="MOD_Crane">
       <LineId Id="213" Count="1" />
-      <LineId Id="216" Count="1" />
+      <LineId Id="216" Count="0" />
       <LineId Id="285" Count="2" />
       <LineId Id="249" Count="0" />
       <LineId Id="218" Count="5" />
@@ -182,9 +183,12 @@ END_IF			]]></ST>
       <LineId Id="279" Count="2" />
       <LineId Id="230" Count="0" />
       <LineId Id="244" Count="0" />
-      <LineId Id="231" Count="2" />
+      <LineId Id="231" Count="0" />
+      <LineId Id="298" Count="0" />
+      <LineId Id="303" Count="0" />
       <LineId Id="238" Count="2" />
       <LineId Id="237" Count="0" />
+      <LineId Id="301" Count="1" />
       <LineId Id="235" Count="0" />
       <LineId Id="210" Count="0" />
       <LineId Id="254" Count="0" />

@@ -15,32 +15,57 @@ VAR_IN_OUT
 END_VAR
 VAR
 	tempIWantExtraBoxInTruck : BOOL;
-	temp : INT := 1;
+	resetState : INT;
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[
-
-//check if there is a truck before running. Also check for weightlimit
+      <ST><![CDATA[//check if there is a truck before running. Also check for weightlimit
 IF i_weighbridge.TruckOnScale AND NOT i_weighbridge.WeightLimitReached THEN
-	q_crane.AllowedToOperate := TRUE;
+	q_crane.AllowedToOperate := TRUE;//can come fromoutside?
+	CASE resetState OF
+		0:
+			iq_CommandState := Command.Reset;
+			//timer?
+			resetState := 1;
+		1:
+			iq_CommandState := Command.Executing;
+	END_CASE
 ELSIF tempIWantExtraBoxInTruck THEN //is supposed to be a button press
 	q_crane.AllowedToOperate := TRUE;
+	CASE resetState OF
+		0:
+			iq_CommandState := Command.Reset;
+			//timer?
+			resetState := 1;
+		1:
+			iq_CommandState := Command.Executing;
+	END_CASE
 ELSIF i_weighbridge.WeightLimitReached THEN
 	q_crane.AllowedToOperate := FALSE;
-	//command stop
+	iq_CommandState := Command.Stop;
 	//done loading!
 ELSIF NOT i_weighbridge.TruckOnScale THEN
 	q_crane.AllowedToOperate := FALSE;
-	//command stop //error?
+	iq_CommandState := Command.Error;
 	//error no truck
 END_IF
 
-]]></ST>
+
+
+CASE iq_CommandState OF
+	Command.Error:
+		resetState := 0;
+	Command.Reset:
+		resetState := 0;
+END_CASE]]></ST>
     </Implementation>
     <LineIds Name="CON_LoadingStation">
-      <LineId Id="14" Count="4" />
+      <LineId Id="16" Count="2" />
+      <LineId Id="103" Count="6" />
+      <LineId Id="79" Count="0" />
       <LineId Id="77" Count="1" />
+      <LineId Id="96" Count="6" />
+      <LineId Id="80" Count="0" />
       <LineId Id="21" Count="0" />
       <LineId Id="20" Count="0" />
       <LineId Id="29" Count="0" />
@@ -50,8 +75,13 @@ END_IF
       <LineId Id="30" Count="0" />
       <LineId Id="27" Count="0" />
       <LineId Id="19" Count="0" />
-      <LineId Id="50" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="90" Count="0" />
       <LineId Id="9" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="2" />
+      <LineId Id="92" Count="0" />
     </LineIds>
   </POU>
 </TcPlcObject>
