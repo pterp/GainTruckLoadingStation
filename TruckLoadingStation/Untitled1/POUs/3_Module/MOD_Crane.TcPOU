@@ -163,7 +163,7 @@ CASE State OF
 		q_VerticalMotor.MoveRight := FALSE;
 		q_HorizontalMotor.MoveLeft := FALSE;
 		q_HorizontalMotor.MoveRight := TRUE;
-			
+		
 		IF i_CraneAboveInput.Blocked = TRUE THEN
 			State := 20;
 		END_IF

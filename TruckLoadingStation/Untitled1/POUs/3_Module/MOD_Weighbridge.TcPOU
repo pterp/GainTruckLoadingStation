@@ -17,7 +17,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[IF iq_CommandState = Command.Executing THEN
+      <ST><![CDATA[IF iq_CommandState = Command.Executing OR iq_CommandState = Command.Pause THEN
 
 	IF i_Sensor.Weight <= i_Definitions.OperatingWeight THEN
 		q_Output.TruckOnScale := FALSE;
