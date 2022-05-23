@@ -19,17 +19,9 @@ END_VAR
     <Implementation>
       <ST><![CDATA[IF iq_CommandState = Command.Executing OR iq_CommandState = Command.Pause THEN
 
-	IF i_Sensor.Weight <= i_Definitions.OperatingWeight THEN
-		q_Output.TruckOnScale := FALSE;
-	ELSE
-		q_Output.TruckOnScale := TRUE;	
-	END_IF
-	
-	IF i_Sensor.Weight > i_Definitions.WeightLimit - i_Definitions.DetractorWeight THEN
-		q_Output.WeightLimitReached := TRUE;
-	ELSE
-		q_Output.WeightLimitReached := FALSE;
-	END_IF
+	q_Output.TruckOnScale := i_Sensor.Weight > i_Definitions.OperatingWeight;
+
+	q_Output.WeightLimitReached := i_Definitions.WeightLimit - i_Definitions.DetractorWeight < i_Sensor.Weight;
 	
 ELSE
 	q_Output.TruckOnScale := FALSE;
@@ -38,15 +30,10 @@ END_IF]]></ST>
     </Implementation>
     <LineIds Name="MOD_Weighbridge">
       <LineId Id="61" Count="0" />
+      <LineId Id="83" Count="0" />
       <LineId Id="63" Count="0" />
-      <LineId Id="30" Count="0" />
-      <LineId Id="35" Count="1" />
-      <LineId Id="33" Count="1" />
-      <LineId Id="37" Count="0" />
-      <LineId Id="31" Count="0" />
-      <LineId Id="39" Count="0" />
-      <LineId Id="41" Count="1" />
-      <LineId Id="40" Count="0" />
+      <LineId Id="34" Count="0" />
+      <LineId Id="82" Count="0" />
       <LineId Id="43" Count="0" />
       <LineId Id="65" Count="2" />
       <LineId Id="64" Count="0" />
