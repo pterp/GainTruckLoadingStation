@@ -3,12 +3,12 @@
   <POU Name="MOD_MechanicalGrabCrane" Id="{e9ad765d-df1b-43cb-8d64-2c01e6d8fa10}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MOD_MechanicalGrabCrane
 VAR_INPUT
-	i_Grab : BOOL;
-	i_sensor : BOOL;
+	i_Grab 		: BOOL;
+	i_sensor 	: BOOL;
 END_VAR
 VAR_OUTPUT
-	q_Grabbed : BOOL;
-	q_motor : BOOL;
+	q_Grabbed 	: BOOL;
+	q_motor 	: BOOL;
 END_VAR
 VAR_IN_OUT
 	iq_CommandState : INT;

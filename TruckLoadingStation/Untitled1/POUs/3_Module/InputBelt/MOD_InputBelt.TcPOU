@@ -3,20 +3,20 @@
   <POU Name="MOD_InputBelt" Id="{2a85e218-1bdb-4ed5-9bd6-698ec9057a87}" SpecialFunc="None">
     <Declaration><![CDATA[FUNCTION_BLOCK MOD_InputBelt
 VAR_INPUT
-	i_InputSensor : MOD_InputBelt_I_stSensor;
-	i_OutputSensor : MOD_InputBelt_I_stSensor;
+	i_InputSensor 	: MOD_InputBelt_I_stSensor;
+	i_OutputSensor 	: MOD_InputBelt_I_stSensor;
 END_VAR
 VAR_OUTPUT
-	q_NewBox : MOD_InputBelt_Q_stRequest;
-	q_BeltMotorOn : MOD_InputBelt_Q_stMotor := (MoveLeft := FALSE, MoveRight := FALSE);
-	q_BoxReady : MOD_InputBelt_Q_stOutput;
+	q_NewBox 		: MOD_InputBelt_Q_stRequest;
+	q_BeltMotorOn 	: MOD_InputBelt_Q_stMotor := (MoveLeft := FALSE, MoveRight := FALSE);
+	q_BoxReady 		: MOD_InputBelt_Q_stOutput;
 END_VAR
 VAR_IN_OUT
 	iq_CommandState : INT;
 END_VAR
 VAR
-	State : INT := 10;
-	Executing : BOOL := FALSE;//variable for main state. used for orderly code
+	State 			: INT := 10;
+	Executing 		: BOOL := FALSE;//variable for main state. used for orderly code
 END_VAR
 ]]></Declaration>
     <Implementation>

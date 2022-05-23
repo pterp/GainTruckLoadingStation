@@ -23,45 +23,6 @@
     <Compile Include="DUTs\DUT.TcTLEO">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="DUTs\Structs\Crane\MOD_Crane_I_stLoad.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\Crane\MOD_Crane_I_stSensor.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\Crane\MOD_Crane_Q_stMotor.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\InputBelt\MOD_InputBelt_Q_stMotor.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\InputBelt\MOD_InputBelt_I_stSensor.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\InputBelt\MOD_InputBelt_Q_stOutput.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\InputBelt\MOD_InputBelt_Q_stRequest.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\Loadingstation\MOD_Loadingstation_I_stWeighbridge.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\Loadingstation\MOD_Loadingstation_Q_stCrane.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\Sensor\DEV_Sensor_stOutput.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\WeighBridge\MOD_WeighBridge_I_stDefinitions.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\WeighBridge\MOD_WeighBridge_Q_stOutput.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DUTs\Structs\WeighBridge\MOD_Weighbridge_I_stSensor.TcDUT">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GVLs\Parts.TcGVL">
       <SubType>Code</SubType>
       <LinkAlways>true</LinkAlways>
@@ -72,7 +33,55 @@
     <Compile Include="POUs\2_Control\CON_LoadingStation.TcPOU">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="POUs\2_Control\Loadingstation\DataTypes\MOD_Loadingstation_I_stWeighbridge.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\2_Control\Loadingstation\DataTypes\MOD_Loadingstation_Q_stCrane.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\Crane\DataTypes\MOD_Crane_I_stLoad.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\Crane\DataTypes\MOD_Crane_I_stSensor.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\Crane\DataTypes\MOD_Crane_Q_stMotor.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\Crane\MOD_Crane.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\InputBelt\DataTypes\MOD_InputBelt_I_stSensor.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\InputBelt\DataTypes\MOD_InputBelt_Q_stMotor.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\InputBelt\DataTypes\MOD_InputBelt_Q_stOutput.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\InputBelt\DataTypes\MOD_InputBelt_Q_stRequest.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\InputBelt\MOD_InputBelt.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="POUs\3_Module\MOD_MechanicalGrabCrane.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\WeighBridge\DataTypes\MOD_WeighBridge_I_stDefinitions.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\WeighBridge\DataTypes\MOD_Weighbridge_I_stSensor.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\WeighBridge\DataTypes\MOD_WeighBridge_Q_stOutput.TcDUT">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\3_Module\WeighBridge\MOD_Weighbridge.TcPOU">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="POUs\4_Devices\Motor_Notimplemented\Sensor\DEV_Sensor_stOutput.TcDUT">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="POUs\4_Devices\Motor_Notimplemented.TcPOU">
@@ -93,15 +102,6 @@
     <Compile Include="POUs\MAIN.TcPOU">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="POUs\3_Module\MOD_Crane.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\3_Module\MOD_InputBelt.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="POUs\3_Module\MOD_Weighbridge.TcPOU">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="POUs\Template.TcPOU">
       <SubType>Code</SubType>
     </Compile>
@@ -109,16 +109,20 @@
   <ItemGroup>
     <Folder Include="DUTs" />
     <Folder Include="DUTs\Structs" />
-    <Folder Include="DUTs\Structs\Crane" />
-    <Folder Include="DUTs\Structs\InputBelt" />
-    <Folder Include="DUTs\Structs\Motor" />
-    <Folder Include="DUTs\Structs\Loadingstation" />
-    <Folder Include="DUTs\Structs\Sensor" />
-    <Folder Include="DUTs\Structs\WeighBridge" />
     <Folder Include="GVLs" />
+    <Folder Include="POUs\2_Control\Loadingstation" />
+    <Folder Include="POUs\2_Control\Loadingstation\DataTypes" />
     <Folder Include="POUs\3_Module" />
+    <Folder Include="POUs\3_Module\Crane" />
+    <Folder Include="POUs\3_Module\Crane\DataTypes" />
+    <Folder Include="POUs\3_Module\InputBelt" />
+    <Folder Include="POUs\3_Module\InputBelt\DataTypes" />
+    <Folder Include="POUs\3_Module\WeighBridge" />
+    <Folder Include="POUs\3_Module\WeighBridge\DataTypes" />
     <Folder Include="POUs\4_Devices" />
     <Folder Include="POUs\2_Control" />
+    <Folder Include="POUs\4_Devices\Motor_Notimplemented" />
+    <Folder Include="POUs\4_Devices\Motor_Notimplemented\Sensor" />
     <Folder Include="POUs\Application" />
     <Folder Include="VISUs" />
     <Folder Include="POUs" />

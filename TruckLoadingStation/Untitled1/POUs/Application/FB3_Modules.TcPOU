@@ -12,37 +12,49 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[Parts.Belt(iq_Commandstate := Parts.GlobalCommandState,
+      <ST><![CDATA[//Belt
+Parts.Belt(iq_Commandstate := Parts.GlobalCommandState,
 	q_NewBox => newboxdump);
-	
+
+//weighbridge	
 WeighbridgeDefinitions.DetractorWeight := 60;
 WeighbridgeDefinitions.OperatingWeight := 1000;
 WeighbridgeDefinitions.WeightLimit := 6000; // needs to be set by external source like HMI	
-Parts.Weighbridge(i_Definitions := WeighbridgeDefinitions,
-	iq_CommandState  := Parts.GlobalCommandState);
+Parts.Weighbridge(
+	i_Definitions 		:= WeighbridgeDefinitions,
+	iq_CommandState  	:= Parts.GlobalCommandState);
 
+//crane
 Parts.Crane.i_Input.Ready := Parts.Belt.q_BoxReady.BoxReady;
-Parts.Crane(i_LoadGrabbed := Parts.MechanicalGrabCrane.q_Grabbed,
-	q_Grab => Parts.MechanicalGrabCrane.i_Grab,
-	iq_CommandState  := Parts.GlobalCommandState);
-	
+Parts.Crane(
+	i_LoadGrabbed 		:= Parts.MechanicalGrabCrane.q_Grabbed,
+	q_Grab 				=> Parts.MechanicalGrabCrane.i_Grab,
+	iq_CommandState 	:= Parts.GlobalCommandState);
+
+//grabcrane	
 Parts.MechanicalGrabCrane(iq_CommandState  := Parts.GlobalCommandState);
 	
 	
 	]]></ST>
     </Implementation>
     <LineIds Name="FB3_Modules">
+      <LineId Id="43" Count="0" />
       <LineId Id="9" Count="0" />
       <LineId Id="12" Count="0" />
+      <LineId Id="42" Count="0" />
       <LineId Id="17" Count="0" />
       <LineId Id="20" Count="2" />
       <LineId Id="18" Count="0" />
+      <LineId Id="40" Count="0" />
       <LineId Id="27" Count="0" />
+      <LineId Id="44" Count="0" />
       <LineId Id="25" Count="0" />
       <LineId Id="13" Count="0" />
       <LineId Id="16" Count="0" />
+      <LineId Id="41" Count="0" />
       <LineId Id="30" Count="0" />
       <LineId Id="24" Count="0" />
+      <LineId Id="45" Count="0" />
       <LineId Id="28" Count="1" />
       <LineId Id="23" Count="0" />
       <LineId Id="14" Count="1" />
