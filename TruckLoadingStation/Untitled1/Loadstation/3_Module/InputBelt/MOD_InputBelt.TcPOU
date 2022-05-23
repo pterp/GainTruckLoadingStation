@@ -48,7 +48,7 @@ END_CASE
 
 IF Executing THEN
 CASE State OF
-	10://startup //reset?
+	10://startup/reset
 		IF i_InputSensor.Blocked = TRUE AND i_OutputSensor.Blocked = TRUE THEN
 			State := 11;
 		ELSIF i_InputSensor.Blocked = FALSE AND i_OutputSensor.Blocked = FALSE THEN

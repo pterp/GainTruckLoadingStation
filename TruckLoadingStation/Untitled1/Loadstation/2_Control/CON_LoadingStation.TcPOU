@@ -5,6 +5,7 @@
 VAR_INPUT
 	i_weighbridge 					: MOD_Loadingstation_I_stWeighbridge;
 	i_tempIWantExtraBoxInTruck 		: BOOL;
+	i_resetTime						: TIME := T#2S;//time necessary for the slowest part to reset
 END_VAR
 VAR_OUTPUT
 	q_crane 						: MOD_Loadingstation_Q_stCrane;
@@ -21,16 +22,16 @@ END_VAR
       <ST><![CDATA[//check if there is a truck before running. Also check for weightlimit
 IF NOT i_weighbridge.TruckOnScale THEN
 	q_crane.AllowedToOperate 	:= FALSE;
-	iq_CommandState 			:= Command.Abort;
-	//Abort no truck
+	iq_CommandState 			:= Command.Abort; //Abort no truck
+	
 ELSIF i_weighbridge.TruckOnScale AND NOT i_weighbridge.WeightLimitReached THEN
 	q_crane.AllowedToOperate 	:= TRUE;//can come fromoutside?
 	CASE resetState OF
 		0:
 			iq_CommandState 	:= Command.Reset;
-			resetTimer(IN := TRUE, PT := T#2S);
+			resetTimer(IN := TRUE, PT := i_resetTime);
 			IF resetTimer.Q THEN
-				resetTimer(IN := FALSE, PT := T#2S);
+				resetTimer(IN := FALSE, PT := i_resetTime);
 				resetState := 1;				
 			END_IF
 		1:
@@ -42,9 +43,9 @@ ELSIF i_tempIWantExtraBoxInTruck THEN //is supposed to be a button press
 	CASE resetState OF
 		0:
 			iq_CommandState 	:= Command.Reset;
-			resetTimer(IN := TRUE, PT := T#2S);
+			resetTimer(IN := TRUE, PT := i_resetTime);
 			IF resetTimer.Q THEN
-				resetTimer(IN := FALSE, PT := T#2S);
+				resetTimer(IN := FALSE, PT := i_resetTime);
 				resetState := 1;				
 			END_IF
 
