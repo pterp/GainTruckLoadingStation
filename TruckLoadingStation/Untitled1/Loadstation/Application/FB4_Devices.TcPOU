@@ -10,7 +10,7 @@ VAR
 END_VAR
 ]]></Declaration>
     <Implementation>
-      <ST><![CDATA[]]></ST>
+      <ST><![CDATA[//devices are not implemented for this project]]></ST>
     </Implementation>
     <LineIds Name="FB4_Devices">
       <LineId Id="9" Count="0" />

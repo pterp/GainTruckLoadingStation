@@ -1,0 +1,102 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TcPlcObject Version="1.1.0.1" ProductVersion="3.1.4024.6">
+  <POU Name="CON_LoadingStation" Id="{fd02a03d-6b4a-42d7-8b82-6be1646338cc}" SpecialFunc="None">
+    <Declaration><![CDATA[FUNCTION_BLOCK CON_LoadingStation
+VAR_INPUT
+	i_weighbridge 					: MOD_Loadingstation_I_stWeighbridge;
+	i_tempIWantExtraBoxInTruck 		: BOOL;
+END_VAR
+VAR_OUTPUT
+	q_crane 						: MOD_Loadingstation_Q_stCrane;
+END_VAR
+VAR_IN_OUT
+	iq_CommandState 				: INT;
+END_VAR
+VAR
+	resetTimer						: TON;
+	resetState 						: INT;
+END_VAR
+]]></Declaration>
+    <Implementation>
+      <ST><![CDATA[//check if there is a truck before running. Also check for weightlimit
+IF NOT i_weighbridge.TruckOnScale THEN
+	q_crane.AllowedToOperate 	:= FALSE;
+	iq_CommandState 			:= Command.Abort;
+	//Abort no truck
+ELSIF i_weighbridge.TruckOnScale AND NOT i_weighbridge.WeightLimitReached THEN
+	q_crane.AllowedToOperate 	:= TRUE;//can come fromoutside?
+	CASE resetState OF
+		0:
+			iq_CommandState 	:= Command.Reset;
+			resetTimer(IN := TRUE, PT := T#2S);
+			IF resetTimer.Q THEN
+				resetTimer(IN := FALSE, PT := T#2S);
+				resetState := 1;				
+			END_IF
+		1:
+			iq_CommandState 	:= Command.Executing;
+	END_CASE
+// if operator wants an extra box loaded above the limit.
+ELSIF i_tempIWantExtraBoxInTruck THEN //is supposed to be a button press
+	q_crane.AllowedToOperate 	:= TRUE;
+	CASE resetState OF
+		0:
+			iq_CommandState 	:= Command.Reset;
+			resetTimer(IN := TRUE, PT := T#2S);
+			IF resetTimer.Q THEN
+				resetTimer(IN := FALSE, PT := T#2S);
+				resetState := 1;				
+			END_IF
+
+		1:
+			iq_CommandState 	:= Command.Executing;
+	END_CASE
+ELSIF i_weighbridge.WeightLimitReached THEN
+	q_crane.AllowedToOperate 	:= FALSE;
+	iq_CommandState 			:= Command.Stop;
+	//done loading!
+END_IF
+
+
+
+CASE iq_CommandState OF
+	Command.Abort:
+		resetState := 0;
+	Command.Reset:
+		resetState := 0;
+END_CASE]]></ST>
+    </Implementation>
+    <LineIds Name="CON_LoadingStation">
+      <LineId Id="16" Count="0" />
+      <LineId Id="130" Count="2" />
+      <LineId Id="129" Count="0" />
+      <LineId Id="17" Count="1" />
+      <LineId Id="103" Count="2" />
+      <LineId Id="137" Count="1" />
+      <LineId Id="140" Count="0" />
+      <LineId Id="139" Count="0" />
+      <LineId Id="107" Count="2" />
+      <LineId Id="79" Count="0" />
+      <LineId Id="113" Count="0" />
+      <LineId Id="77" Count="1" />
+      <LineId Id="96" Count="3" />
+      <LineId Id="134" Count="0" />
+      <LineId Id="141" Count="0" />
+      <LineId Id="135" Count="1" />
+      <LineId Id="100" Count="2" />
+      <LineId Id="80" Count="0" />
+      <LineId Id="21" Count="0" />
+      <LineId Id="20" Count="0" />
+      <LineId Id="29" Count="0" />
+      <LineId Id="28" Count="0" />
+      <LineId Id="19" Count="0" />
+      <LineId Id="82" Count="0" />
+      <LineId Id="84" Count="0" />
+      <LineId Id="90" Count="0" />
+      <LineId Id="9" Count="0" />
+      <LineId Id="91" Count="0" />
+      <LineId Id="93" Count="2" />
+      <LineId Id="92" Count="0" />
+    </LineIds>
+  </POU>
+</TcPlcObject>

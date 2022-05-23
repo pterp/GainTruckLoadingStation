@@ -3,7 +3,7 @@
   <DUT Name="DEV_Sensor_stOutput" Id="{da2431cc-4b6b-431e-bce4-0bf31de5b949}">
     <Declaration><![CDATA[TYPE DEV_Sensor_stOutput :
 STRUCT
-	Error : BOOL;
+	Abort : BOOL;
 	Detecting : BOOL;
 END_STRUCT
 END_TYPE

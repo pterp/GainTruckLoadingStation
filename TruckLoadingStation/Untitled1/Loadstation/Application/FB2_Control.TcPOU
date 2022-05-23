@@ -11,13 +11,15 @@ END_VAR
 ]]></Declaration>
     <Implementation>
       <ST><![CDATA[//loadingstation
-Parts.Loadingstation.i_weighbridge.TruckOnScale := Parts.Weighbridge.q_Output.TruckOnScale;
-Parts.Loadingstation.i_weighbridge.WeightLimitReached := Parts.Weighbridge.q_Output.WeightLimitReached;
-Parts.Loadingstation(iq_Commandstate := Parts.GlobalCommandState);]]></ST>
+Loadingstation.i_weighbridge.TruckOnScale 			:= Weighbridge.q_Output.TruckOnScale;
+Loadingstation.i_weighbridge.WeightLimitReached 	:= Weighbridge.q_Output.WeightLimitReached;
+
+Loadingstation(iq_Commandstate := GlobalCommandState);]]></ST>
     </Implementation>
     <LineIds Name="FB2_Control">
       <LineId Id="16" Count="0" />
       <LineId Id="27" Count="1" />
+      <LineId Id="37" Count="0" />
       <LineId Id="18" Count="0" />
     </LineIds>
   </POU>
